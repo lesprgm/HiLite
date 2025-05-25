@@ -14,6 +14,8 @@ def upload_pdf(request):
                     tmp.write(chunk)
                 tmp_path = tmp.name
             highlights = extract_highlights(tmp_path)
+            print("Extracted highlights:", highlights)
+
             
     else:
         form = PDFUploadForm
