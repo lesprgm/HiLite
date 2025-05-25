@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload PDF</title>
+</head>
+<body>
+    <h1>Upload a PDF to Extract Highlights</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Upload</button>
+    </form>
+
+    {% if highlights %}
+        <h2>Extracted Highlights</h2>
+        <ul>
+        {% for text in highlights %}
+            <li>{{ text }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+</html>
