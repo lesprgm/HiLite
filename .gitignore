@@ -31,3 +31,5 @@ db.sqlite3
 # Notion token or secrets
 *.env
 .env.*
+.env
+
