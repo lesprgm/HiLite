@@ -1,6 +1,8 @@
 from django.shortcuts import render
+from django.contrib import messages
 from .forms import PDFUploadForm
 from .utils import extract_highlights
+from notion_client import Client
 import tempfile
 
 # Create your views here.
