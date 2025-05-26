@@ -18,6 +18,19 @@
             <li>{{ text }}</li>
         {% endfor %}
         </ul>
+
+        <form method="post" action="{% url 'send_to_notion' %}">
+            {% csrf_token %}
+            <button type="submit">Send to Notion</button>
     {% endif %}
+
+    {% if messages %}
+        <ul>
+        {% for message in messages %}
+            <li class="{{message.tags}}">{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+    
 </body>
 </html>
