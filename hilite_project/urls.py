@@ -16,9 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from core.views import upload_pdf
+from core import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', upload_pdf, name='upload_pdf'),
+    path('', views.upload_pdf, name='upload_pdf'),
+    path('send/', views.send_to_notion, name='send_to_notion'),
 ]
