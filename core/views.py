@@ -7,6 +7,12 @@ from decouple import config
 
 #import tempfile
 
+def privacy_view(request):
+    return render(request, "core/privacy.html")
+
+def terms_view(request):
+    return render(request, "core/terms.html")
+
 # Create your views here.
 def upload_pdf(request):
     highlights = None

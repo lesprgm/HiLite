@@ -22,4 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.upload_pdf, name='upload_pdf'),
     path('send/', views.send_to_notion, name='send_to_notion'),
+    path('privacy/', views.privacy_view, name='privacy'),
+    path('terms/', views.terms_view, name='terms'),
 ]
