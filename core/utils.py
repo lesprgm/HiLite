@@ -1,7 +1,7 @@
-import fitz  # PyMuPDF
+import fitz  
 
-def extract_highlights(pdf_path):
-    doc = fitz.open(pdf_path)
+def extract_highlights(file_obj):
+    doc = fitz.open(stream=file_obj.read(), filetype="pdf")
     highlights = []
 
     for page_num in range(len(doc)):
