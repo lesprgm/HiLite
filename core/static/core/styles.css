@@ -1,0 +1,19 @@
+body, html {
+    margin: 0;
+    padding: 0;
+}
+
+.gradient-bg {
+    background: linear-gradient(135deg, #e0f2ff, #f9f0ff);
+    padding: 2rem;
+}
+
+.brand-name {
+    color: #845ef7;
+    font-weight: 600;
+    font-size: 1.5rem;
+}
+
+.highlight-purple {
+    color: #845ef7;
+}
