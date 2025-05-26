@@ -3,6 +3,8 @@ from django.contrib import messages
 from .forms import PDFUploadForm
 from .utils import extract_highlights
 from notion_client import Client
+from decouple import config
+
 #import tempfile
 
 # Create your views here.
@@ -34,8 +36,8 @@ def send_to_notion(request):
             return redirect("upload_pdf")
 
         try:
-            notion = Client(auth="your_notion_token")  # Replace with your actual token
-            page_id = "your_page_id"  # Replace with your actual Notion page ID
+            notion = Client(auth=config("NOTION_TOKEN"))  # Replace with your actual token
+            page_id = config("NOTION_PAGE_ID") # Replace with your actual Notion page ID
 
             blocks = [
                 {
