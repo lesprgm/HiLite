@@ -24,4 +24,6 @@ urlpatterns = [
     path('send/', views.send_to_notion, name='send_to_notion'),
     path('privacy/', views.privacy_view, name='privacy'),
     path('terms/', views.terms_view, name='terms'),
+    path("connect/", views.connect_to_notion, name="connect_to_notion"),
+    path("oauth/callback/", views.oauth_callback, name="oauth_callback"),
 ]
