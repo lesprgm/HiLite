@@ -1,0 +1,5 @@
+static/** linguist-vendored
+node_modules/** linguist-vendored
+*.min.js linguist-vendored
+*.min.css linguist-vendored
+*.map linguist-vendored
