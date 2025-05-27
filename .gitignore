@@ -33,3 +33,5 @@ db.sqlite3
 .env.*
 .env
 
+# Ignore static build output
+staticfiles/
