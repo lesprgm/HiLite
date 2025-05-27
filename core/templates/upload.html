@@ -21,11 +21,19 @@
         <h2 class="brand-name">HiLite</h2>
         <h1 class="display-4 fw-bold">Extract PDF <span class="highlight-purple">Highlights</span><br>to Notion</h1>
 
-        <form method="post" enctype="multipart/form-data" class="d-flex gap-2 justify-content-center flex-wrap">
+        <form method="post" action="{% url 'upload_pdf'%}" enctype="multipart/form-data" class="d-flex gap-2 justify-content-center flex-wrap">
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit" class="btn btn-primary px-4">Upload</button>
         </form>
+
+        {% if form.errors %}
+            <div class="alert alert-danger mt-3 w-75">
+                {{ form.errors }}
+            </div>
+        {% endif %}
+
+
 
     {% if not request.session.notion_token %}
         <a href="{% url 'connect_to_notion' %}" class="btn btn-outline-light mt-3">
