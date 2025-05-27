@@ -10,6 +10,8 @@ from django.http import HttpResponse
 NOTION_CLIENT_ID = config("NOTION_CLIENT_ID")
 NOTION_CLIENT_SECRET = config("NOTION_CLIENT_SECRET")
 REDIRECT_URI = "https://hilite.onrender.com/oauth/callback/"
+#REDIRECT_URI = "http://127.0.0.1:8000/oauth/callback/"
+
 
 
 def privacy_view(request):
@@ -20,7 +22,9 @@ def terms_view(request):
 
 # Create your views here.
 def upload_pdf(request):
-    highlights = None
+    form = PDFUploadForm()
+    highlights = request.session.get("highlights",None)
+    token = request.session.get("notion_token", None)
     if request.method == 'POST':
         form = PDFUploadForm(request.POST, request.FILES)
         if form.is_valid():
@@ -28,10 +32,19 @@ def upload_pdf(request):
             highlights = extract_highlights(pdf_file) 
             request.session["highlights"] = highlights
             print("Extracted highlights:", highlights)
-            return render(request, 'upload.html', {'form': form, 'highlights': highlights})       
-    else:
-        form = PDFUploadForm()
-    return render(request, "upload.html", {"form": form})       
+            
+            return render(request, 'upload.html', {
+                'form': form,
+                'highlights': highlights,
+                'messages': messages.get_messages(request),
+                'token' : token,
+            })       
+        
+    return render(request, "upload.html", {
+        'form': form,
+        'highlights': highlights,
+        'token' : token,
+    })       
 
 def connect_to_notion(request):
     base_url = "https://api.notion.com/v1/oauth/authorize"
@@ -81,8 +94,9 @@ def send_to_notion(request):
             return redirect("upload_pdf")
         
         if not token:
-            messages.error(request, "Connect to Notion")
-            return redirect(connect_to_notion)
+            request.session["highlights"] = highlights
+            messages.error(request, "Connect to Notion before sending highlights")
+            return redirect("connect_to_notion")
 
         try:
             notion = Client(auth=token)  
