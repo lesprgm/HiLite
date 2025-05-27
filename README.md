@@ -1,29 +1,32 @@
-# HiLite 
+# HiLite
 
-**HiLite** is a Django web application that extracts highlighted text from PDF documents and sends those highlights directly to your **Notion** workspace using the official Notion API.
+**HiLite** is a Django web application that extracts highlighted text from PDF documents and exports those highlights directly to your **Notion** workspace using the official Notion API via OAuth.
 
-It streamlines the note-taking process for students, researchers, and professionals who annotate PDFs and want their key insights stored in Notion.
-
----
-
-## Features
-
--  Upload PDF documents via a sleek web interface
--  Automatically extract **highlighted text** using PyMuPDF
--  One-click export to a Notion page
--  Clean, responsive UI styled with Bootstrap 5
--  Secure Notion API integration using `notion-client`
+It simplifies the note-taking process for students, researchers, and professionals who annotate PDFs and want their insights organized in Notion without manual copy-pasting.
 
 ---
 
-## Folder Structure
+##  Features
+
+-  Upload PDF documents via a clean and responsive web UI
+-  Extract **highlighted text** automatically using PyMuPDF
+-  Connect to Notion securely via OAuth 2.0
+-  One-click export to your Notion page
+-  Responsive Bootstrap 5 frontend with custom styling
+-  No data stored — highlights live only in your session
+
+---
+
+##  Folder Structure
 
 ```
 hilite/
 ├── core/
 │   ├── templates/
 │   │   └── core/
-│   │       └── upload.html
+│   │       ├── upload.html
+│   │       ├── privacy.html
+│   │       └── terms.html
 │   ├── static/
 │   │   └── core/
 │   │       ├── styles.css
@@ -36,12 +39,12 @@ hilite/
 │   ├── settings.py
 │   ├── urls.py
 ├── manage.py
-└── README.md
+└── .env
 ```
 
 ---
 
-## Setup Instructions
+##  Setup Instructions
 
 ### 1. Clone the Repository
 
@@ -63,79 +66,90 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### 4. Apply Migrations
+### 4. Add Environment Variables
+
+Create a `.env` file and add your secrets:
+
+```ini
+NOTION_CLIENT_ID=your_client_id
+NOTION_CLIENT_SECRET=your_client_secret
+NOTION_PAGE_ID=your_page_id
+```
+
+> ⚠ Make sure `.env` is listed in `.gitignore` to avoid pushing secrets to GitHub.
+
+### 5. Apply Migrations
 
 ```bash
 python manage.py migrate
 ```
 
-### 5. Run the Server
+### 6. Run the Development Server
 
 ```bash
 python manage.py runserver
 ```
 
-Open your browser and visit: [http://127.0.0.1:8000](http://127.0.0.1:8000)
+Visit: [http://127.0.0.1:8000](http://127.0.0.1:8000)
 
 ---
 
-## Notion Integration Setup
+##  Notion Integration (OAuth)
 
 1. Go to [Notion Integrations](https://www.notion.com/my-integrations) and create a new integration.
-2. Copy the integration **token**.
-3. Share a Notion page with the integration (using the “Share” → “Invite” button).
-4. Copy the **page ID** from the Notion page URL.
-5. In your `views.py`, replace:
+2. Set the **redirect URI** to:
 
-```python
-notion = Client(auth="your_notion_token")
-page_id = "your_page_id"
+```
+https://your-domain.com/oauth/callback/ (or http://127.0.0.1:8000/oauth/callback/ for local testing)
 ```
 
-> Tip: You can store these securely using environment variables and `python-decouple`.
+3. Save the **client ID** and **client secret** from Notion and add them to your `.env`.
+4. Share your Notion page with your integration (click "Share" → "Invite" → choose your integration).
+5. Copy the **Notion page ID** from the URL and include it in `.env`.
 
 ---
 
 ##  UI Preview
 
-The landing page includes:
+The app includes:
 
-- A gradient background
-- Custom highlighter icon
+- Gradient background and branding
 - PDF upload form
-- Extracted highlights display
-- A "Send to Notion" button that only appears after upload
+- Live extracted highlights list
+- Connect to Notion button
+- Export to Notion button (shown only after uploading)
 
 ---
 
-## Requirements
+##  Requirements
 
-Add this to your `requirements.txt` if you haven't already:
+Add this to your `requirements.txt`:
 
 ```
 Django>=5.2
-notion-client>=2.2.1
-PyMuPDF>=1.23.22
+notion-client>=2.3.0
+PyMuPDF>=1.26.0
+python-decouple>=3.8
 ```
 
 ---
 
-## Future Enhancements
+##  Future Enhancements
 
-- User authentication
-- Let users select or create Notion pages dynamically
-- Drag-and-drop PDF upload
-- In-app PDF highlight preview
-- Export multiple files at once
+- User authentication and session tracking
+- Dynamic Notion page selection and creation
+- Drag-and-drop file upload
+- Preview uploaded PDF highlights inside the app
+- Batch export support for multiple PDFs
 
 ---
 
-## License
+##  License
 
 MIT License — free to use, modify, and distribute.
 
 ---
 
-## Author
+##  Author
 
 Built by **Leslie Osei-Anane**.
