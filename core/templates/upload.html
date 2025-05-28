@@ -17,14 +17,20 @@
     </nav>
     
     <div class="gradient-bg text-center min-vh-100 d-flex flex-column justify-content-center align-items-center px-3">
-        <img src="{% static 'core/highlighter.png' %}" alt="Logo" class="mb-2" width='48'>
-        <h2 class="brand-name">HiLite</h2>
+        <div class="d-flex align-items-center justify-content-center mb-2">
+            <img src="{% static 'core/highlighter.png' %}" alt="Logo" class="me-2" width='48'>
+            <h2 class="brand-name mb-0">HiLite</h2>
+        </div>
         <h1 class="display-4 fw-bold">Extract PDF <span class="highlight-purple">Highlights</span><br>to Notion</h1>
 
-        <form method="post" action="{% url 'upload_pdf' %}" enctype="multipart/form-data" class="d-flex gap-2 justify-content-center flex-wrap">
+        <form method="post" action="{% url 'upload_pdf' %}" enctype="multipart/form-data" class="d-flex flex-column gap-3 justify-content-center align-items-center w-75">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-primary px-4">Upload</button>
+            <div class="d-flex align-items-end mb-3" style="width: 50%;">
+                <div class="flex-grow-1 me-2">
+                    {{ form.pdf_file }}
+                </div>
+                <button type="submit" class="btn btn-primary px-4">Upload</button>
+            </div>
         </form>
 
         {% if form.errors %}
@@ -34,13 +40,13 @@
         {% endif %}
 
         {% if not token %}
-            <a href="{% url 'connect_to_notion' %}" class="btn btn-outline-light mt-3">
+            <a href="{% url 'connect_to_notion' %}" class="btn btn-light mt-3">
                 Connect to Notion
             </a>
         {% endif %}
 
         {% if highlights %}
-            <h3 class="mt-5 text-white">Extracted Highlights</h3>
+            <h3 class="mt-5 text-black">Extracted Highlights</h3>
             <ul class="list-group list-group-flush bg-white text-start w-75 mx-auto mt-3 shadow-sm rounded">
                 {% for text in highlights %}
                     <li class="list-group-item">{{ text }}</li>
