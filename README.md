@@ -141,6 +141,7 @@ python-decouple>=3.8
 - Drag-and-drop file upload
 - Preview uploaded PDF highlights inside the app
 - Batch export support for multiple PDFs
+- Ability to extract other annotations from documents
 
 ---
 
