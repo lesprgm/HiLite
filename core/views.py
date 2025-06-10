@@ -2,13 +2,10 @@ import requests
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import PDFUploadForm
-from .utils import extract_highlights
+from .utils import extract_highlights_or_fallback
 from notion_client import Client
 from decouple import config
 from django.http import HttpResponse
-from pdf2image import convert_from_bytes
-from textblob import TextBlob
-import pytesseract, cv2, numpy as np, re
 from io import BytesIO
 
 
@@ -34,7 +31,7 @@ def upload_pdf(request):
         form = PDFUploadForm(request.POST, request.FILES)
         if form.is_valid():
             pdf_file = request.FILES['pdf_file']
-            highlights = extract_highlights(pdf_file) 
+            highlights = extract_highlights_or_fallback(pdf_file) 
             request.session["highlights"] = highlights
             print("Extracted highlights:", highlights)
             
