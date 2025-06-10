@@ -6,6 +6,11 @@ from .utils import extract_highlights
 from notion_client import Client
 from decouple import config
 from django.http import HttpResponse
+from pdf2image import convert_from_bytes
+from textblob import TextBlob
+import pytesseract, cv2, numpy as np, re
+from io import BytesIO
+
 
 NOTION_CLIENT_ID = config("NOTION_CLIENT_ID")
 NOTION_CLIENT_SECRET = config("NOTION_CLIENT_SECRET")
