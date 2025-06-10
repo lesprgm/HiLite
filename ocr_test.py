@@ -1,7 +1,15 @@
 import cv2
 import pytesseract
 import numpy as np
+import re
 from pdf2image import convert_from_path
+from textblob import TextBlob
+
+def clean_text(text):
+    text = text.replace("\n", " ").strip()  
+    text = re.sub(r"[^a-zA-Z0-9.,'\"?!:;()\[\]\s]", "", text)  
+    text = re.sub(r"\s+", " ", text)  
+    return text
 
 pdf_path = "test.pdf"
 #dpi = 300
@@ -50,14 +58,20 @@ for page_num, page in enumerate(pages, 1):
             roi = image[y1:y2, x1:x2]
             text = pytesseract.image_to_string(roi)
             if text.strip():
-                highlighted_texts.append(text.strip())
+                cleaned = clean_text(text)
+                corrected = str(TextBlob(cleaned).correct())
+                highlighted_texts.append(corrected)
+
 
         else:
             x1, y1, x2, y2 = group[0]
             roi = image[y1:y2, x1:x2]
             text = pytesseract.image_to_string(roi)
             if text.strip():
-                highlighted_texts.append(text.strip())
+                cleaned = clean_text(text)
+                corrected = str(TextBlob(cleaned).correct())
+                highlighted_texts.append(corrected)
+
 
     if highlighted_texts:
         print(f"\n Page {page_num} Highlighted Text:")
