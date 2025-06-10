@@ -55,14 +55,25 @@ def extract_highlights_or_fallback(file_obj):
         return highlights
 
     highlighted_texts = []
-    pages = convert_from_bytes(file_bytes, 300)
+    #pages = convert_from_bytes(file_bytes, 200)
+    
+    doc = fitz.open(stream=file_bytes, filetype="pdf")
+    total_pages = len(doc)
+    doc.close()
 
     min_area = 300
     line_gap_thresh = 30
     expand_margin = 1000
 
-    for page_num, page in enumerate(pages, 1):
-        image = np.array(page)
+    for page_num in range(1, total_pages + 1):
+        try:
+            page_image = convert_from_bytes(
+                file_bytes, dpi=300, first_page=page_num, last_page=page_num
+            )[0]
+        except IndexError:
+            break
+        
+        image = np.array(page_image)
         hsv = cv2.cvtColor(image, cv2.COLOR_RGB2HSV)
 
         mask = cv2.inRange(hsv, (10, 40, 150), (180, 255, 255))
