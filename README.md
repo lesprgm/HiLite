@@ -14,6 +14,9 @@ It simplifies the note-taking process for students, researchers, and professiona
 -  One-click export to your Notion page
 -  Responsive Bootstrap 5 frontend with custom styling
 -  No data stored — highlights live only in your session
+-  Preview uploaded PDF highlights inside the app
+-  Fallback to **OCR-based highlight detection** using Tesseract when needed( Uses a lot of memory so does not work in the web app unless you can help me with this)
+
 
 ---
 
@@ -78,6 +81,10 @@ NOTION_PAGE_ID=your_page_id
 
 > ⚠ Make sure `.env` is listed in `.gitignore` to avoid pushing secrets to GitHub.
 
+
+##  Tesseract OCR (for fallback detection)(New and buggy feature)
+HiLite uses [Tesseract OCR](https://github.com/tesseract-ocr/tesseract) to extract highlights from scanned PDFs when digital annotations aren't available.
+
 ### 5. Apply Migrations
 
 ```bash
@@ -126,10 +133,15 @@ The app includes:
 Add this to your `requirements.txt`:
 
 ```
-Django>=5.2
+Django>=5.2.1
 notion-client>=2.3.0
 PyMuPDF>=1.26.0
 python-decouple>=3.8
+opencv-python-headless==4.9.0.80
+pdf2image==1.17.0
+pytesseract==0.3.10
+textblob==0.18.0
+
 ```
 
 ---
@@ -139,7 +151,6 @@ python-decouple>=3.8
 - User authentication and session tracking
 - Dynamic Notion page selection and creation
 - Drag-and-drop file upload
-- Preview uploaded PDF highlights inside the app
 - Batch export support for multiple PDFs
 - Ability to extract other annotations from documents
 
