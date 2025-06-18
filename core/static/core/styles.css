@@ -46,14 +46,23 @@ body, html {
     background-color: #fff;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     border-radius: 12px;
-    margin-top: 3rem;
+    margin-top: 1.3rem;
 }
 
 .legal-container h1,
 .legal-container h2,
 .legal-container h3 {
     color: #5b21b6;
-    margin-top: 2rem;
+    margin-top: 1rem;
+    margin-bottom: 0rem;
+}
+
+.legal-container h1 + p,
+.legal-container h2 + p,
+.legal-container h3 + p,
+.legal-container h2 + ul,
+.legal-container h3 + ul {
+    margin-top: 0rem; 
 }
 
 .legal-container a {
@@ -63,6 +72,7 @@ body, html {
 
 .legal-container ul {
     padding-left: 1.2rem;
+    margin-bottom: 0.4 rem;
 }
 
 body {
