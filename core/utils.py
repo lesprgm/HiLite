@@ -122,7 +122,8 @@ def extract_highlights_or_fallback(file_obj):
             if text.strip():
                 cleaned = clean_text(text)
                 
-                corrected = str(TextBlob(cleaned).correct())
+                #corrected = str(TextBlob(cleaned).correct())
+                corrected = cleaned
                 highlighted_texts.append(corrected)
 
     return highlighted_texts
