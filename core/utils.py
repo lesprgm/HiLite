@@ -59,7 +59,7 @@ def extract_highlights_or_fallback(file_obj):
     client = vision.ImageAnnotatorClient()
 
     highlighted_texts = []
-    pages = convert_from_bytes(file_bytes, 300)
+    pages = convert_from_bytes(file_bytes, 200)
 
     min_area = 300
     line_gap_thresh = 30
@@ -118,7 +118,7 @@ def extract_highlights_or_fallback(file_obj):
             
             response = client.document_text_detection(image=gcp_vision_image)
             text = response.full_text_annotation.text
-            
+                        
             if text.strip():
                 cleaned = clean_text(text)
                 
