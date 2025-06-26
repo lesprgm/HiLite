@@ -27,3 +27,6 @@ db.sqlite3
 .env
 
 staticfiles/
+
+# Google Cloud Service Account Key
+/secrets/
