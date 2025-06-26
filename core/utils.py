@@ -7,6 +7,8 @@ from pdf2image import convert_from_bytes
 from textblob import TextBlob
 from io import BytesIO
 
+from google.cloud import vision
+
 def extract_highlights(file_obj):
     doc = fitz.open(stream=file_obj.read(), filetype="pdf")
     highlights = []
@@ -53,6 +55,8 @@ def extract_highlights_or_fallback(file_obj):
     highlights = extract_highlights(BytesIO(file_bytes))
     if highlights:
         return highlights
+    
+    client = vision.ImageAnnotatorClient()
 
     highlighted_texts = []
     pages = convert_from_bytes(file_bytes, 300)
@@ -98,9 +102,26 @@ def extract_highlights_or_fallback(file_obj):
                 x1, y1, x2, y2 = group[0]
                 roi = image[y1:y2, x1:x2]
 
+            '''
             text = pytesseract.image_to_string(roi)
             if text.strip():
                 cleaned = clean_text(text)
+                corrected = str(TextBlob(cleaned).correct())
+                highlighted_texts.append(corrected)
+                '''
+                
+            success, encoded_image = cv2.imencode('.png', roi)
+            if not success:
+                continue
+            content = encoded_image.tobytes()
+            gcp_vision_image = vision.Image(content=content)
+            
+            response = client.document_text_detection(image=gcp_vision_image)
+            text = response.full_text_annotation.text
+            
+            if text.strip():
+                cleaned = clean_text(text)
+                
                 corrected = str(TextBlob(cleaned).correct())
                 highlighted_texts.append(corrected)
 
