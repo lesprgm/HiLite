@@ -63,7 +63,7 @@ def extract_highlights_or_fallback(file_obj):
 
     min_area = 300
     line_gap_thresh = 30
-    expand_margin = 1000
+    expand_margin = 300
 
     for page_num, page in enumerate(pages, 1):
         image = np.array(page)
