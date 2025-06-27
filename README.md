@@ -15,7 +15,19 @@ It simplifies the note-taking process for students, researchers, and professiona
 -  Responsive Bootstrap 5 frontend with custom styling
 -  No data stored — highlights live only in your session
 -  Preview uploaded PDF highlights inside the app
--  Fallback to **OCR-based highlight detection** using Tesseract when needed( Uses a lot of memory so does not work in the web app unless you can help me with this)
+-  Fallback to **OCR-based highlight detection** using Cloud Vision when needed( Uses a lot of memory so does not work in the web app unless you can help me with this)
+
+
+---
+
+## Important Considerations for OCR & Memory Usage (Fallback feature)
+HiLite leverages Google Cloud Vision API for  OCR capabilities to extract text. While powerful, processing PDFs, especially large or high-DPI documents, is memory-intensive.
+
+Memory Footprint: The OCR process can consume significant RAM. This application is optimized to reduce memory usage by processing one page at a time and using lower DPI settings for image conversion, but large PDFs (many pages, complex layouts, or very high resolution) may still strain server memory limits, particularly on free or lower-tier hosting plans (e.g., Render's free tier).
+
+Performance: Processing time will vary based on PDF complexity, size, and your hosting environment's resources.
+
+OCR Accuracy: Accuracy depends on the clarity of the text in the PDF and the quality of the OCR engine.
 
 
 ---
@@ -82,9 +94,6 @@ NOTION_PAGE_ID=your_page_id
 > ⚠ Make sure `.env` is listed in `.gitignore` to avoid pushing secrets to GitHub.
 
 
-##  Tesseract OCR (for fallback detection)(New and buggy feature)
-HiLite uses [Tesseract OCR](https://github.com/tesseract-ocr/tesseract) to extract highlights from scanned PDFs when digital annotations aren't available.
-
 ### 5. Apply Migrations
 
 ```bash
@@ -139,8 +148,7 @@ PyMuPDF>=1.26.0
 python-decouple>=3.8
 opencv-python-headless==4.9.0.80
 pdf2image==1.17.0
-pytesseract==0.3.10
-textblob==0.18.0
+google-cloud-vision>=3.4.0 # For Google Cloud Vision API
 
 ```
 
