@@ -4,7 +4,7 @@ import pytesseract
 import numpy as np
 import re
 from pdf2image import convert_from_bytes
-from textblob import TextBlob
+#from textblob import TextBlob
 from io import BytesIO
 
 from google.cloud import vision
@@ -59,7 +59,7 @@ def extract_highlights_or_fallback(file_obj):
     client = vision.ImageAnnotatorClient()
 
     highlighted_texts = []
-    pages = convert_from_bytes(file_bytes, 200)
+    pages = convert_from_bytes(file_bytes, 150)
 
     min_area = 300
     line_gap_thresh = 30
